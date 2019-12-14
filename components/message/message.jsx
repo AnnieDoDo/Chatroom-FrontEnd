@@ -4,49 +4,43 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import {Button} from 'react-bootstrap'
 import FormControl from 'react-bootstrap/FormControl'
 
-const socket = require('socket.io-client')('http://localhost:4500');
-
 class Message extends React.Component {
     constructor(props){
         super(props);
         
         this.state = {
             message: '',
-            submitted: false
+            submitted: false,
+            socket: this.props.socket
         };
 
-        this.sendMessage = this.sendMessage.bind(this)
+
         this.handleChange = this.handleChange.bind(this)
+        this.sendMessage = this.sendMessage.bind(this)
 
-    };
-
-    
-    componentDidMount() {
-        socket.on('getMessage', (data) => {
-            console.log(data)
-        })
-        
-    };
-
-    sendMessage () {
-        const { message } = this.state;
-        socket.emit('getMessage', message)
     };
 
     handleChange(e){
-        const { name, value } = e.target;
-        this.setState({[name]: value});
+        this.setState({message: e.target.value})
+    }
+
+    sendMessage(e) {
+        const socket = this.state.socket;
+        const message = this.state.message;
+        socket.emit('getMessage', message)
+        this.setState({message:''})
     }
 
     render(){
-        const { message, submitted } = this.state;
+        const { message } = this.state;
+
         return(
             <div>
                 <InputGroup className="mb-3">
                     <InputGroup.Prepend>
                         <Button variant="outline-secondary" onClick={this.sendMessage}>Button</Button>
                     </InputGroup.Prepend>
-                        <FormControl aria-describedby="basic-addon1" name="message" value={message||''} onChange={this.handleChange}/>
+                        <FormControl aria-describedby="basic-addon1" value={message||''} onChange={this.handleChange}/>
                         {!message &&
                         <div className="help-block" className="wordstyle">text here</div>
                         }
