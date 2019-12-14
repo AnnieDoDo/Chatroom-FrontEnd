@@ -7,9 +7,10 @@ class Bubble extends React.Component {
         super(props);
 
         this.state = {
-            message: '',
+            message: [],
             submitted: false,
-            socket: this.props.socket
+            socket: this.props.socket,
+            id: 1
         };
 
         this.handleChange = this.handleChange.bind(this)
@@ -23,9 +24,18 @@ class Bubble extends React.Component {
 
     handleMessage() {
         const socket = this.state.socket;
+        const message = this.state.message;
+        const id = this.state.id;
+        this.setState((state) => ({
+            id: state.id + state.id
+          }));
         // 客户端监控登陆
         socket.on('getMessage', mes => {
-            this.setState({message: mes})
+            let newMessages = this.state.message.concat({
+                key: id,
+                text: mes
+            });
+            this.setState({message: newMessages})
         })
    
     }
@@ -33,6 +43,23 @@ class Bubble extends React.Component {
     render(){
         const { message } = this.state;
 
+            let messagePane = [];
+       
+            if (message) {
+              message.forEach(function(msg) {
+                messagePane.push(<div key={msg.key}> 
+                 <Toast>
+                    <Toast.Header closeButton={false}>
+                        <strong className="mr-auto">Bootstrap</strong>
+                        <small>11 mins ago</small>
+                    </Toast.Header>
+                    <Toast.Body>
+                        {msg.text}
+                    </Toast.Body>
+                    </Toast></div>);
+              });
+            }
+        
         return(
             <div>
                 <Toast>
@@ -41,10 +68,13 @@ class Bubble extends React.Component {
                     <small>11 mins ago</small>
                 </Toast.Header>
                 <Toast.Body onChange={this.handleChange}>
-                    <h5>{message}</h5>
+
                 </Toast.Body>
                 </Toast>
+                {messagePane}
             </div>
+
+
         );
     }
 }

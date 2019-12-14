@@ -11,9 +11,17 @@ class MainPage extends React.Component {
     constructor(props){
         super(props);
         
-        this.state = {socket:socket}
+        this.state = {
+            socket:socket,
+            pushBubble:Bubble,
+            list:[]
+        }
         this.ready()
     };
+
+
+
+
 
     ready() {
         const socket = this.state.socket;
@@ -26,12 +34,13 @@ class MainPage extends React.Component {
 
     render() {
         const {socket}=this.state
+    
         return (
             <div className="background">
                 <Message socket={socket} />
                 <Bubble socket={socket} />
-                
             </div>
+
         );
     }
 }
