@@ -44,10 +44,11 @@ class Bubble extends React.Component {
           }));
 
         socket.on('getMessage', mes => {
+            console.log(mes+"message~")
             let newMessages = this.state.message.concat({
-                user: acc,
+                user: mes[0].user,
                 key: id,
-                text: mes,
+                text: mes[0].text,
                 time: time,
                 date: date
             });

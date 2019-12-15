@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { NavBar } from '../navbar/navbar.jsx';
 import Style from './mainpage.css'
 import { Form, Button } from "react-bootstrap"
 import {Message}  from '../message/message.jsx'
@@ -31,6 +31,7 @@ class MainPage extends React.Component {
     
         return (
             <div className="background">
+                <NavBar />
                 <Message socket={socket} />
                 <Bubble socket={socket} />
             </div>
