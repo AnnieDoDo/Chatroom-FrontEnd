@@ -8,9 +8,16 @@ import { connect } from 'react-redux';
 class Message extends React.Component {
     constructor(props){
         super(props);
-        
+        const getuser = localStorage.getItem('user');
+        var gu = 'user'
+        if(getuser!==null){
+            console.log(getuser+"getuserhere")
+            gu = getuser.toString()
+        }
         this.state = {
+            acc: gu,
             message: '',
+            send:[],
             submitted: false,
             socket: this.props.socket
         };
@@ -28,7 +35,15 @@ class Message extends React.Component {
     sendMessage(e) {
         const socket = this.state.socket;
         const message = this.state.message;
-        socket.emit('getMessage', message)
+        const acc = this.state.acc;
+        const send = this.state.send;
+        let newMessages = this.state.send.concat({
+            user: acc,
+            text: message,
+        });
+        this.setState({send: newMessages})
+
+        socket.emit('getMessage', newMessages)
         this.props.storeMessage(message)
         this.setState({message:''})
     }
