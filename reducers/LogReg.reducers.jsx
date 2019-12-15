@@ -42,6 +42,9 @@ export function LogReg(state = {},action){
 
         case LogRegConstants.LOGIN_TO_LOGIN_PAGE:
             return {...state};
+
+        case LogRegConstants.LOGIN_TO_MANAGER_PAGE:
+            return {...state};
         
         case LogRegConstants.REGISTER_ACCOUNT_EXIST:
             return {...state};

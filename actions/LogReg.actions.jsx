@@ -7,6 +7,7 @@ export const LogRegAction = {
     logout,
     register,
     turnToLoginPage,
+    turnToManagerPage
 };
 
 function login(email, password){
@@ -74,4 +75,13 @@ function turnToLoginPage(){
     };
 
     function request() {return { type : LogRegConstants.LOGIN_TO_LOGIN_PAGE}}
+}
+
+function turnToManagerPage(){
+    return dispatch => {
+        dispatch(request());
+        history.push('/manager');
+    };
+
+    function request() {return { type : LogRegConstants.LOGIN_TO_MANAGER_PAGE}}
 }

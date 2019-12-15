@@ -5,7 +5,6 @@ export function Manager(state = {},action){
         case ManagerConstants.CREATE_REQUEST:
             return {
                 ...state,
-                texting: true
             }
         
         case ManagerConstants.CREATE_SUCCESS:
@@ -27,7 +26,6 @@ export function Manager(state = {},action){
         case ManagerConstants.READ_REQUEST:
             return {
                 ...state,
-                texting: true
             }
         
         case ManagerConstants.READ_SUCCESS:
@@ -48,7 +46,6 @@ export function Manager(state = {},action){
         case ManagerConstants.DELETE_REQUEST:
             return {
                 ...state,
-                texting: true
             }
         
         case ManagerConstants.DELETE_SUCCESS:
@@ -65,6 +62,25 @@ export function Manager(state = {},action){
         case ManagerConstants.DELETE_PERMISSION_DENY:
             return {...state};
 
+
+        case ManagerConstants.UPDATE_REQUEST:
+            return {
+                ...state,
+            }
+        
+        case ManagerConstants.UPDATE_SUCCESS:
+            return {
+                ...state,
+            }
+
+        case ManagerConstants.UPDATE_FAILURE:
+            return {
+                ...state,
+                error: action.error
+            }
+        
+        case ManagerConstants.UPDATE_PERMISSION_DENY:
+            return {...state};
             
         default:
             return state

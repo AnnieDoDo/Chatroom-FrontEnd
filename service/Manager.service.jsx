@@ -2,6 +2,7 @@ export const ManagerService = {
     Create,
     Read,
     Delete,
+    Update,
 };
 
 function Create(accountdata,password){
@@ -11,7 +12,7 @@ function Create(accountdata,password){
         mode: 'cors'
     }
 
-    return fetch('http://localhost:4500/create',requestEntity)
+    return fetch('http://fcard.luishsu.me/create',requestEntity)
     .then(handleReg =>{
         return handleReg.text()
     })
@@ -24,7 +25,7 @@ function Read(){
         mode: 'cors'
     }
 
-    return fetch('http://localhost:4500/read',requestEntity)
+    return fetch('http://fcard.luishsu.me/read',requestEntity)
     .then(handleReg =>{
         return handleReg.text()
     })
@@ -37,7 +38,20 @@ function Delete(accountdata){
         mode: 'cors'
     }
 
-    return fetch('http://localhost:4500/delete',requestEntity)
+    return fetch('http://fcard.luishsu.me/delete',requestEntity)
+    .then(handleReg =>{
+        return handleReg.text()
+    })
+}
+
+function Update(accountdata,password,admin){
+    const requestEntity = {
+        method :'POST',
+        body: JSON.stringify({accountdata,password,admin}),
+        mode: 'cors'
+    }
+
+    return fetch('http://fcard.luishsu.me/update',requestEntity)
     .then(handleReg =>{
         return handleReg.text()
     })

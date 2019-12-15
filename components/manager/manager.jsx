@@ -18,7 +18,10 @@ class Manager extends React.Component {
 
         this.state = {
             username: '',
+            upusername:'',
+            dusername: '',
             password: '',
+            upassword:'',
             submitted: false,
             submittedupdate: false,
             submitteddelete: false,
@@ -27,7 +30,9 @@ class Manager extends React.Component {
 
         this.props.Read();
         this.handleChange = this.handleChange.bind(this);
-        this.handleChangeUpdate = this.handleChangeUpdate.bind(this);
+        this.handleChangeUpdateu = this.handleChangeUpdateu.bind(this);
+        this.handleChangeUpdatep = this.handleChangeUpdatep.bind(this);
+        this.handleChangeUpdates = this.handleChangeUpdates.bind(this);
         this.handleChangeDelete = this.handleChangeDelete.bind(this);
         this.handleCreate = this.handleCreate.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
@@ -41,16 +46,24 @@ class Manager extends React.Component {
         this.setState({[name]: value});
     }
 
-    handleChangeUpdate(e){
-        const { update, updatevalue } = e.target;
-        this.setState({[update]: updatevalue});
+    handleChangeUpdateu(e){
+
+        this.setState({upusername: e.target.value});
+    }
+
+    handleChangeUpdatep(e){
+
+        this.setState({upassword: e.target.value});
+    }
+
+    handleChangeUpdates(e){
+
+        this.setState({setmanager: e.target.value});
     }
 
     handleChangeDelete(e){
-        const { del, delvalue } = e.target;
-        this.setState({[del]: delvalue});
+        this.setState({dusername: e.target.value});
     }
-
 
     handleCreate(){
         this.setState({ submitted: true });
@@ -62,23 +75,24 @@ class Manager extends React.Component {
 
     handleUpdate(){
         this.setState({ submittedupdate: true });
-        const { username, password, setmanager } = this.state;
-        if (username && password && setmanager) {
-  
+        const { upusername, upassword, setmanager } = this.state;
+        if (upusername && upassword && setmanager) {
+            this.props.Update(upusername,upassword,setmanager)
         }
     }
 
     handleDelete(){
         this.setState({ submitteddelete: true });
-        const { username } = this.state;
-        if (username) {
-
+        const { dusername } = this.state;
+        console.log(dusername)
+        if (dusername) {
+            this.props.Delete(dusername)
         }
     }
 
 
     render() {
-        const { username, password, submitted, submittedupdate, submitteddelete, setmanager } = this.state;
+        const { username,upusername, dusername, upassword,password, submitted, submittedupdate, submitteddelete, setmanager } = this.state;
         const { rdata } = this.props;
         let memberPane = [];
         var i = 0;
@@ -107,7 +121,7 @@ class Manager extends React.Component {
                 </InputGroup.Prepend>
                 <FormControl name="username" value={username||''} onChange={this.handleChange}/>
                     {submitted && !username &&
-                        <div className="help-block" className="wordstyle">Username is required</div>
+                        <div className="help-block" className="wordstyle">Account is required</div>
                     }
                 <InputGroup.Prepend>
                     <InputGroup.Text>Password</InputGroup.Text>
@@ -116,42 +130,45 @@ class Manager extends React.Component {
                     {submitted && !password &&
                         <div className="help-block" className="wordstyle">Password is required</div>
                     }
+                </InputGroup>
 
-
+                <InputGroup className="mb-3">
                 <Button variant="secondary" onClick={this.handleUpdate}>
                     Update Account
                 </Button>
                 <InputGroup.Prepend>
                     <InputGroup.Text>Account</InputGroup.Text>
                 </InputGroup.Prepend>
-                <FormControl update="username" updatevalue={username||''} onChange={this.handleChangeUpdate}/>
-                    {submittedupdate && !username &&
+                <FormControl onChange={this.handleChangeUpdateu}/>
+                    {submittedupdate && !upusername &&
                         <div className="help-block" className="wordstyle">Account is required</div>
                     }
                 <InputGroup.Prepend>
                     <InputGroup.Text>Password</InputGroup.Text>
                 </InputGroup.Prepend>
-                <FormControl update="password" updatevalue={password||''} onChange={this.handleChangeUpdate}/>
-                    {submittedupdate && !password &&
+                <FormControl onChange={this.handleChangeUpdatep}/>
+                    {submittedupdate && !upassword &&
                         <div className="help-block" className="wordstyle">Password is required</div>
                     }
 
                 <InputGroup.Prepend>
                     <InputGroup.Text>Be a Manager</InputGroup.Text>
                 </InputGroup.Prepend>
-                <FormControl update="setmanager" updatevalue={setmanager||''} onChange={this.handleChangeUpdate}/>
-                    {submittedupdate && !setmanager &&
+                <FormControl onChange={this.handleChangeUpdates}/>
+                    {submittedupdate &&
                         <div className="help-block" className="wordstyle">0 or 1 is required</div>
                     }
+                </InputGroup>
 
+                <InputGroup className="mb-3">
                 <Button variant="secondary" onClick={this.handleDelete}>
                     Delete Account
                 </Button>
                 <InputGroup.Prepend>
                     <InputGroup.Text>Account</InputGroup.Text>
                 </InputGroup.Prepend>
-                <FormControl del="username" delvalue={username||''} onChange={this.handleChangeDelete}/>
-                    {submitteddelete && !username &&
+                <FormControl delvalue={dusername||''} onChange={this.handleChangeDelete}/>
+                    {submitteddelete && !dusername &&
                         <div className="help-block" className="wordstyle">Account is required</div>
                     }
                 </InputGroup>
@@ -181,10 +198,12 @@ function mapState(state) {
     return {rdata};
 }
 
-export default Manager;
+
 const actionCreators = {
     Create: ManagerAction.Create,
     Read: ManagerAction.Read,
+    Delete: ManagerAction.Delete,
+    Update: ManagerAction.Update
 };
 
 const connectedManager = connect(mapState, actionCreators)(Manager);

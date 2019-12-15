@@ -6,6 +6,7 @@ export const ManagerAction = {
     Create,
     Read,
     Delete,
+    Update,
 };
 
 function Create(email, password){
@@ -36,6 +37,37 @@ function Create(email, password){
     function failure(user) {return { type : ManagerConstants.CREATE_FAILURE,user}}
     function accountExist(accountexist){ return { type : ManagerConstants.CREATE_ACCOUNT_EXIST,accountExist}}
 }
+
+
+function Update(email, password, admin){
+    return dispatch => {
+
+        dispatch(request({email}));
+
+        ManagerService.Update(email,password,admin)
+        .then(resString => {
+            //console.log(typeof(resString))
+            console.log(resString)
+            
+            if(resString=='You have registered before'||resString=='You dont have this permission')
+            {
+                dispatch((resString));
+            }else if(resString=='updateFail')
+            {
+                dispatch(failure(resString));
+            }else if(resString=='updateOK'){
+                dispatch(success(resString));
+                console.log("update success")
+
+            }
+        })
+    };
+    function request(user) {return { type : ManagerConstants.UPDATE_REQUEST,user}}
+    function success(user) {return { type : ManagerConstants.UPDATE_SUCCESS,user}}
+    function failure(user) {return { type : ManagerConstants.UPDATE_FAILURE,user}}
+    function permissiondny(user){ return { type : ManagerConstants.UPDATE_FAILURE,user}}
+}
+
 
 function Read(){
     return dispatch => {
@@ -72,24 +104,18 @@ function Read(){
 function Delete(user){
     return dispatch => {
 
-        dispatch(request({}));
+        dispatch(request({user}));
 
-        ManagerService.Delete()
+        ManagerService.Delete(user)
         .then(resString => {
-            console.log(typeof(resString))
-            console.log(JSON.parse(resString))
-
-            var resStrings = JSON.parse(resString)
-            console.log(resStrings[0].accountdata)
-            
             if(resString=='You have to login first.'||resString=='You dont have this permission')
             {
                 dispatch(permissiondeny(resString));
             }else if(resString=='deleteFail')
             {
                 dispatch(failure(resString));
-            }else if(resStrings=='deleteOK'){
-                dispatch(success(resStrings));
+            }else if(resString=='deleteOK'){
+                dispatch(success(resString));
                 console.log("delete success")
 
             }
