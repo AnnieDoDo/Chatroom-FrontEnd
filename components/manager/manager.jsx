@@ -20,19 +20,35 @@ class Manager extends React.Component {
             username: '',
             password: '',
             submitted: false,
-            setmanager: false,
+            submittedupdate: false,
+            submitteddelete: false,
+            setmanager:false,
         };
 
         this.props.Read();
         this.handleChange = this.handleChange.bind(this);
+        this.handleChangeUpdate = this.handleChangeUpdate.bind(this);
+        this.handleChangeDelete = this.handleChangeDelete.bind(this);
         this.handleCreate = this.handleCreate.bind(this);
-        this.handleDelete = this.handleDelete.bind(this)
+        this.handleUpdate = this.handleUpdate.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+
     };
 
 
     handleChange(e){
         const { name, value } = e.target;
         this.setState({[name]: value});
+    }
+
+    handleChangeUpdate(e){
+        const { update, updatevalue } = e.target;
+        this.setState({[update]: updatevalue});
+    }
+
+    handleChangeDelete(e){
+        const { del, delvalue } = e.target;
+        this.setState({[del]: delvalue});
     }
 
 
@@ -44,13 +60,25 @@ class Manager extends React.Component {
         }
     }
 
+    handleUpdate(){
+        this.setState({ submittedupdate: true });
+        const { username, password, setmanager } = this.state;
+        if (username && password && setmanager) {
+  
+        }
+    }
+
     handleDelete(){
-        this.props.Delete(username)
+        this.setState({ submitteddelete: true });
+        const { username } = this.state;
+        if (username) {
+
+        }
     }
 
 
     render() {
-        const { username, password, submitted, setmanager } = this.state;
+        const { username, password, submitted, submittedupdate, submitteddelete, setmanager } = this.state;
         const { rdata } = this.props;
         let memberPane = [];
         var i = 0;
@@ -60,27 +88,10 @@ class Manager extends React.Component {
                 <ListGroup horizontal>
                 <ListGroup.Item>{rdata[i].accountdata}</ListGroup.Item>
                 <ListGroup.Item>{rdata[i].admin}</ListGroup.Item>
-                
-                <InputGroup className="mb-3">
-                <InputGroup.Prepend>
-                    <InputGroup.Text>Password</InputGroup.Text>
-                </InputGroup.Prepend>
-                <FormControl />
-                </InputGroup>
-
-                <ButtonGroup>
-                    <DropdownButton as={ButtonGroup} title="Dropdown" id="bg-vertical-dropdown-1">
-                    <Dropdown.Item>0</Dropdown.Item>
-                    <Dropdown.Item>1</Dropdown.Item>
-                    </DropdownButton>
-                    <Button>Edit</Button>
-                    <Button>Delete</Button>
-                </ButtonGroup>
                 </ListGroup>
 
                 </div>);
                 i = i+1;
-                console.log(i)
           });
         }
 
@@ -96,7 +107,7 @@ class Manager extends React.Component {
                 </InputGroup.Prepend>
                 <FormControl name="username" value={username||''} onChange={this.handleChange}/>
                     {submitted && !username &&
-                        <div className="help-block" className="wordstyle">Email is required</div>
+                        <div className="help-block" className="wordstyle">Username is required</div>
                     }
                 <InputGroup.Prepend>
                     <InputGroup.Text>Password</InputGroup.Text>
@@ -105,7 +116,46 @@ class Manager extends React.Component {
                     {submitted && !password &&
                         <div className="help-block" className="wordstyle">Password is required</div>
                     }
+
+
+                <Button variant="secondary" onClick={this.handleUpdate}>
+                    Update Account
+                </Button>
+                <InputGroup.Prepend>
+                    <InputGroup.Text>Account</InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl update="username" updatevalue={username||''} onChange={this.handleChangeUpdate}/>
+                    {submittedupdate && !username &&
+                        <div className="help-block" className="wordstyle">Account is required</div>
+                    }
+                <InputGroup.Prepend>
+                    <InputGroup.Text>Password</InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl update="password" updatevalue={password||''} onChange={this.handleChangeUpdate}/>
+                    {submittedupdate && !password &&
+                        <div className="help-block" className="wordstyle">Password is required</div>
+                    }
+
+                <InputGroup.Prepend>
+                    <InputGroup.Text>Be a Manager</InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl update="setmanager" updatevalue={setmanager||''} onChange={this.handleChangeUpdate}/>
+                    {submittedupdate && !setmanager &&
+                        <div className="help-block" className="wordstyle">0 or 1 is required</div>
+                    }
+
+                <Button variant="secondary" onClick={this.handleDelete}>
+                    Delete Account
+                </Button>
+                <InputGroup.Prepend>
+                    <InputGroup.Text>Account</InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl del="username" delvalue={username||''} onChange={this.handleChangeDelete}/>
+                    {submitteddelete && !username &&
+                        <div className="help-block" className="wordstyle">Account is required</div>
+                    }
                 </InputGroup>
+
 
                 <InputGroup size = 'lg'className="mb-3" className="Style">
                 <InputGroup.Prepend>
@@ -114,14 +164,6 @@ class Manager extends React.Component {
 
                 <InputGroup.Prepend>
                     <InputGroup.Text>Manager or not</InputGroup.Text>
-                </InputGroup.Prepend>
-
-                <InputGroup.Prepend>
-                    <InputGroup.Text>Edit Password</InputGroup.Text>
-                </InputGroup.Prepend>
-
-                <InputGroup.Prepend>
-                    <InputGroup.Text>Edit Manager or not</InputGroup.Text>
                 </InputGroup.Prepend>
                 
                 </InputGroup>
@@ -143,7 +185,6 @@ export default Manager;
 const actionCreators = {
     Create: ManagerAction.Create,
     Read: ManagerAction.Read,
-    Delete: ManagerAction.Delete,
 };
 
 const connectedManager = connect(mapState, actionCreators)(Manager);
