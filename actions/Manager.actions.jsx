@@ -4,7 +4,8 @@ import {history} from '../helpers/history.jsx'
 
 export const ManagerAction = {
     Create,
-    Read
+    Read,
+    Delete,
 };
 
 function Create(email, password){
@@ -66,4 +67,36 @@ function Read(){
     function success(rdata) {return { type : ManagerConstants.READ_SUCCESS,rdata}}
     function failure(user) {return { type : ManagerConstants.READ_FAILURE,user}}
     function permissiondeny(user){ return { type : ManagerConstants.READ_PERMISSION_DENY,user}}
+}
+
+function Delete(user){
+    return dispatch => {
+
+        dispatch(request({}));
+
+        ManagerService.Delete()
+        .then(resString => {
+            console.log(typeof(resString))
+            console.log(JSON.parse(resString))
+
+            var resStrings = JSON.parse(resString)
+            console.log(resStrings[0].accountdata)
+            
+            if(resString=='You have to login first.'||resString=='You dont have this permission')
+            {
+                dispatch(permissiondeny(resString));
+            }else if(resString=='deleteFail')
+            {
+                dispatch(failure(resString));
+            }else if(resStrings=='deleteOK'){
+                dispatch(success(resStrings));
+                console.log("delete success")
+
+            }
+        })
+    };
+    function request(user) {return { type : ManagerConstants.DELETE_REQUEST,user}}
+    function success(user) {return { type : ManagerConstants.DELETE_SUCCESS,user}}
+    function failure(user) {return { type : ManagerConstants.DELETE_FAILURE,user}}
+    function permissiondeny(user){ return { type : ManagerConstants.DELETE_PERMISSION_DENY,user}}
 }

@@ -17,6 +17,7 @@ ReactDOM.render(
         <ConnectedRouter history={history} >
             <Switch>
                 <Route path={"/chatroom"} component={MainPage} />
+                <Route path={"/manager"} component={Manager} />
                 <Route path={"/"} component={Login} />
             </Switch>
         </ConnectedRouter>

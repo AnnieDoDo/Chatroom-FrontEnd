@@ -45,6 +45,26 @@ export function Manager(state = {},action){
         case ManagerConstants.READ_PERMISSION_DENY:
             return {...state};
 
+        case ManagerConstants.DELETE_REQUEST:
+            return {
+                ...state,
+                texting: true
+            }
+        
+        case ManagerConstants.DELETE_SUCCESS:
+            return {
+                ...state,
+            }
+
+        case ManagerConstants.DELETE_FAILURE:
+            return {
+                ...state,
+                error: action.error
+            }
+        
+        case ManagerConstants.DELETE_PERMISSION_DENY:
+            return {...state};
+
             
         default:
             return state

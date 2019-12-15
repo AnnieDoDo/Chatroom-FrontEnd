@@ -5,6 +5,10 @@ import Style from './manager.css'
 import { Form, Button } from "react-bootstrap"
 import Container from 'react-bootstrap/Container'
 import ListGroup from 'react-bootstrap/ListGroup'
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import DropdownButton from 'react-bootstrap/DropdownButton'
+import Dropdown from 'react-bootstrap/Dropdown'
+
 import { ManagerAction } from '../../actions/Manager.actions.jsx';
 import { connect } from 'react-redux';
 
@@ -13,14 +17,16 @@ class Manager extends React.Component {
         super(props);
 
         this.state = {
-            email: '',
+            username: '',
             password: '',
-            submitted: false
+            submitted: false,
+            setmanager: false,
         };
 
+        this.props.Read();
         this.handleChange = this.handleChange.bind(this);
         this.handleCreate = this.handleCreate.bind(this);
-
+        this.handleDelete = this.handleDelete.bind(this)
     };
 
 
@@ -38,21 +44,46 @@ class Manager extends React.Component {
         }
     }
 
-    componentDidMount() {
-        this.props.Read();
+    handleDelete(){
+        this.props.Delete(username)
     }
 
 
     render() {
-        const { username, password, submitted } = this.state;
+        const { username, password, submitted, setmanager } = this.state;
         const { rdata } = this.props;
+        let memberPane = [];
+        var i = 0;
+        if (rdata) {
+          rdata.forEach(function(m) {
+            memberPane.push(<div key={m.key}> 
+                <ListGroup horizontal>
+                <ListGroup.Item>{rdata[i].accountdata}</ListGroup.Item>
+                <ListGroup.Item>{rdata[i].admin}</ListGroup.Item>
+                
+                <InputGroup className="mb-3">
+                <InputGroup.Prepend>
+                    <InputGroup.Text>Password</InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl />
+                </InputGroup>
 
-        const content = rdata.map((post) =>
-        <div key={post.id}>
-          <h3>{post[0].accountdata}</h3>
-          <p>{post[0].admin}</p>
-        </div>
-      );
+                <ButtonGroup>
+                    <DropdownButton as={ButtonGroup} title="Dropdown" id="bg-vertical-dropdown-1">
+                    <Dropdown.Item>0</Dropdown.Item>
+                    <Dropdown.Item>1</Dropdown.Item>
+                    </DropdownButton>
+                    <Button>Edit</Button>
+                    <Button>Delete</Button>
+                </ButtonGroup>
+                </ListGroup>
+
+                </div>);
+                i = i+1;
+                console.log(i)
+          });
+        }
+
 
         return (
             <div className="background">
@@ -82,24 +113,20 @@ class Manager extends React.Component {
                 </InputGroup.Prepend>
 
                 <InputGroup.Prepend>
-                    <InputGroup.Text>Password</InputGroup.Text>
-                </InputGroup.Prepend>
-
-                <InputGroup.Prepend>
                     <InputGroup.Text>Manager or not</InputGroup.Text>
                 </InputGroup.Prepend>
 
                 <InputGroup.Prepend>
-                    <InputGroup.Text>Edit</InputGroup.Text>
+                    <InputGroup.Text>Edit Password</InputGroup.Text>
                 </InputGroup.Prepend>
 
                 <InputGroup.Prepend>
-                    <InputGroup.Text>Delete</InputGroup.Text>
+                    <InputGroup.Text>Edit Manager or not</InputGroup.Text>
                 </InputGroup.Prepend>
                 
                 </InputGroup>
 
-                {content}
+                {memberPane}
             </div>
         );
     }
@@ -116,6 +143,7 @@ export default Manager;
 const actionCreators = {
     Create: ManagerAction.Create,
     Read: ManagerAction.Read,
+    Delete: ManagerAction.Delete,
 };
 
 const connectedManager = connect(mapState, actionCreators)(Manager);
