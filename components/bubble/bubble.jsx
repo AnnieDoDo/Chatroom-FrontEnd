@@ -62,15 +62,6 @@ class Bubble extends React.Component {
         
         return(
             <div>
-                <Toast>
-                <Toast.Header closeButton={false}>
-                    <strong className="mr-auto">Bootstrap</strong>
-                    <small>11 mins ago</small>
-                </Toast.Header>
-                <Toast.Body onChange={this.handleChange}>
-
-                </Toast.Body>
-                </Toast>
                 {messagePane}
             </div>
 

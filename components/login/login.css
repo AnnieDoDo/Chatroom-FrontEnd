@@ -1,0 +1,32 @@
+.formShift{
+    max-width: 1140px;
+    min-width: 960px;
+}
+.emailShiftRight{
+    display: inline-block;
+    padding-left: 1200px;
+    padding-top: 200px;
+    color: #ffffff;
+}
+.passwordShiftRight{
+    display: inline-block;
+    padding-left: 1200px;
+    color: #ffffff;
+}
+.loginShiftRight{
+    display: inline-block;
+    margin: 50px 1200px;
+
+}
+.registerShiftRight{
+    display: inline-block;
+    margin: -30px 1200px;
+}
+.background{
+    background-color: #00324e;
+    min-height: 1000px;
+}
+.wordstyle{
+    color: #bd494a;
+
+}

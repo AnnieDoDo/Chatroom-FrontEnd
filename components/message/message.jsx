@@ -42,7 +42,7 @@ class Message extends React.Component {
                     </InputGroup.Prepend>
                         <FormControl aria-describedby="basic-addon1" value={message||''} onChange={this.handleChange}/>
                         {!message &&
-                        <div className="help-block" className="wordstyle">text here</div>
+                        <div className="help-block" className="wordstyle"></div>
                         }
                 </InputGroup>
             </div>

@@ -1,0 +1,14 @@
+.navbar{
+    background-color : #006aa6;
+}
+
+.navlink{
+    color: #ffffff;
+}
+
+.iconstyle{
+    position: relative;
+    color: #ffffff;
+    font-size: 30px;
+    margin-right: 40px;
+}
