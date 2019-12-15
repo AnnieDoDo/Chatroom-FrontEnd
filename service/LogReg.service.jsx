@@ -19,7 +19,7 @@ function login(accountdata,password){
         console.log(user)
         if(user)
         {
-            localStorage.setItem('user',user);
+            localStorage.setItem('user',accountdata);
         }else{
             user = ''
         }

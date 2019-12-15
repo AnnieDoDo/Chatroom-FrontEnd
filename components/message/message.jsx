@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-
+import {MessageAction} from '../../actions/Message.actions.jsx'
 import InputGroup from 'react-bootstrap/InputGroup'
 import {Button} from 'react-bootstrap'
 import FormControl from 'react-bootstrap/FormControl'
+import { connect } from 'react-redux';
 
 class Message extends React.Component {
     constructor(props){
@@ -28,6 +29,7 @@ class Message extends React.Component {
         const socket = this.state.socket;
         const message = this.state.message;
         socket.emit('getMessage', message)
+        this.props.storeMessage(message)
         this.setState({message:''})
     }
 
@@ -50,4 +52,9 @@ class Message extends React.Component {
     }
 }
 
-export default Message;
+const actionCreators = {
+    storeMessage: MessageAction.storeMessage,
+};
+
+const connectedMessage = connect(null, actionCreators)(Message);
+export { connectedMessage as Message };

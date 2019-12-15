@@ -5,17 +5,27 @@ import Toast from 'react-bootstrap/Toast'
 class Bubble extends React.Component {
     constructor(props){
         super(props);
+        const getuser = localStorage.getItem('user');
+        var gu = 'user'
+        if(getuser!==null){
+            console.log(getuser+"getuserhere")
+            gu = getuser.toString()
+        }
 
         this.state = {
+            acc: gu,
             message: [],
             submitted: false,
             socket: this.props.socket,
-            id: 1
+            id: 1,
+            date: new Date()
         };
 
         this.handleChange = this.handleChange.bind(this)
         this.handleMessage = this.handleMessage.bind(this)
         this.handleMessage()
+
+
     };
 
     handleChange(e){
@@ -25,15 +35,21 @@ class Bubble extends React.Component {
     handleMessage() {
         const socket = this.state.socket;
         const message = this.state.message;
+        const acc = this.state.acc;
+        const time = this.state.date.toLocaleTimeString();
+        const date = this.state.date.toLocaleDateString();
         const id = this.state.id;
         this.setState((state) => ({
             id: state.id + state.id
           }));
-        // 客户端监控登陆
+
         socket.on('getMessage', mes => {
             let newMessages = this.state.message.concat({
+                user: acc,
                 key: id,
-                text: mes
+                text: mes,
+                time: time,
+                date: date
             });
             this.setState({message: newMessages})
         })
@@ -42,6 +58,7 @@ class Bubble extends React.Component {
 
     render(){
         const { message } = this.state;
+        
 
             let messagePane = [];
        
@@ -50,8 +67,8 @@ class Bubble extends React.Component {
                 messagePane.push(<div key={msg.key}> 
                  <Toast>
                     <Toast.Header closeButton={false}>
-                        <strong className="mr-auto">Bootstrap</strong>
-                        <small>11 mins ago</small>
+                        <strong className="mr-auto">{msg.user}</strong>
+                        <small>{msg.time}{msg.date}</small>
                     </Toast.Header>
                     <Toast.Body>
                         {msg.text}

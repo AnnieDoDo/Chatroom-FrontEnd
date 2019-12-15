@@ -1,17 +1,15 @@
-import{ MessageConstants } from '../constants/Message.constants';
+import{ MessageConstants } from '../constants/Message.constants.jsx';
 
 export function Message(state = {},action){
     switch(action.type){
         case MessageConstants.MESSAGE_REQUEST:
             return {
                 ...state,
-                texting: true
             }
         
         case MessageConstants.MESSAGE_SUCCESS:
             return {
                 ...state,
-                text: action.text
             }
 
         case MessageConstants.MESSAGE_FAILURE:

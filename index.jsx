@@ -6,7 +6,7 @@ import { store } from './helpers/store.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ConnectedRouter } from 'connected-react-router'
 import { history } from './helpers/history.jsx'
-import Message  from './components/message/message.jsx'
+import {Message}  from './components/message/message.jsx'
 import Bubble from './components/bubble/bubble.jsx'
 import {MainPage} from './components/mainpage/mainpage.jsx'
 import {Manager} from './components/manager/manager.jsx'
