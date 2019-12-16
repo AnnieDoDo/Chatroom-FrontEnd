@@ -9,7 +9,7 @@ function storeMessage(accountdata,text){
         mode: 'cors'
     }
 
-    return fetch('http://fcard.luishsu.me/message',requestEntity)
+    return fetch('https://fcard.luishsu.me/message',requestEntity)
     .then(handleReg =>{
         return handleReg.text()
     })

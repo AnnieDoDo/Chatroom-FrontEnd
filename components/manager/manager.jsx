@@ -8,7 +8,7 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown'
-
+import { NavBar } from '../navbar/navbar.jsx';
 import { ManagerAction } from '../../actions/Manager.actions.jsx';
 import { connect } from 'react-redux';
 
@@ -112,6 +112,7 @@ class Manager extends React.Component {
 
         return (
             <div className="background">
+                <NavBar />
                 <InputGroup className="mb-3">
                 <Button variant="secondary" onClick={this.handleCreate}>
                     Add Account

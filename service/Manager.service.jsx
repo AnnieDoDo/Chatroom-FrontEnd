@@ -12,7 +12,7 @@ function Create(accountdata,password){
         mode: 'cors'
     }
 
-    return fetch('http://fcard.luishsu.me/create',requestEntity)
+    return fetch('https://fcard.luishsu.me/create',requestEntity)
     .then(handleReg =>{
         return handleReg.text()
     })
@@ -25,7 +25,7 @@ function Read(){
         mode: 'cors'
     }
 
-    return fetch('http://fcard.luishsu.me/read',requestEntity)
+    return fetch('https://fcard.luishsu.me/read',requestEntity)
     .then(handleReg =>{
         return handleReg.text()
     })
@@ -38,7 +38,7 @@ function Delete(accountdata){
         mode: 'cors'
     }
 
-    return fetch('http://fcard.luishsu.me/delete',requestEntity)
+    return fetch('https://fcard.luishsu.me/delete',requestEntity)
     .then(handleReg =>{
         return handleReg.text()
     })
@@ -51,7 +51,7 @@ function Update(accountdata,password,admin){
         mode: 'cors'
     }
 
-    return fetch('http://fcard.luishsu.me/update',requestEntity)
+    return fetch('https://fcard.luishsu.me/update',requestEntity)
     .then(handleReg =>{
         return handleReg.text()
     })

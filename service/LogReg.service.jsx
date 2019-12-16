@@ -13,7 +13,7 @@ function login(accountdata,password){
         credentials: 'include',
     }
     
-    return fetch('http://fcard.luishsu.me/login',requestEntity)
+    return fetch('https://fcard.luishsu.me/login',requestEntity)
     .then(handleResponse)
     .then(user =>{
         console.log(user)
@@ -34,7 +34,7 @@ function logout() {
         credentials: 'include',
     }
 
-    return fetch('http://fcard.luishsu.me/logout',requestEntity)
+    return fetch('https://fcard.luishsu.me/logout',requestEntity)
     .then(handleReg =>{
         console.log(handleReg)
         if(handleReg.text()=="logoutOK")
@@ -66,7 +66,7 @@ function register(accountdata, password){
         mode: 'cors'
     }
 
-    return fetch('http://fcard.luishsu.me/register',requestEntity)
+    return fetch('https://fcard.luishsu.me/register',requestEntity)
     .then(handleReg =>{
         return handleReg.text()
     })
